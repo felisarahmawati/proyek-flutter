@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
             title: "Application",
             initialRoute: Routes.LOGIN,
             getPages: AppPages.routes,
+            debugShowCheckedModeBanner: false,
           );
         }
       },
