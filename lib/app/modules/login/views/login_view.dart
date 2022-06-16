@@ -1,11 +1,63 @@
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'package:laravel/app/modules/home/views/home_view.dart';
 import 'package:laravel/app/routes/app_pages.dart';
+import 'package:laravel/app/modules/services/auth_services.dart';
+import 'package:laravel/app/modules/services/globals.dart';
 
+// import 'package:shared_preferences/shared_preferences';
 import '../controllers/login_controller.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
-class LoginView extends GetView<LoginController> {
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // BuildContext get context
+  void loginPressed() async {
+    var response = await http.post(
+        Uri.parse("http://192.168.47.30:8000/api/auth/login"),
+        body: ({
+          "email": _emailController.text,
+          "password": _passwordController.text
+        }));
+    final body = json.decode(response.body);
+    if (_emailController.text != body["email"]) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Email Tidak Sesuai"),
+      ));
+    } else if (_passwordController.text != body["password"]) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Password Tidak Sesuai"),
+      ));
+    } else {
+      if (response.statusCode == 200) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const HomeView(),
+            ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Login Gagal"),
+        ));
+      }
+    }
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var password = prefs.getString('password');
+    print(password);
+    runApp(MaterialApp(home: password == null ? HomeView() : LoginView()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,13 +69,13 @@ class LoginView extends GetView<LoginController> {
             Container(
               height: 250,
               child: Image.asset(
-                "assets/images/log.png",
+                "assets/images/123.png",
                 fit: BoxFit.contain,
               ),
             ),
             SizedBox(height: 30),
             Text(
-              "Masukan Username",
+              "Masukkan Login",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -31,14 +83,15 @@ class LoginView extends GetView<LoginController> {
             ),
             SizedBox(height: 15),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Username",
+                hintText: "Email",
               ),
             ),
             SizedBox(height: 10),
             Text(
-              "Masukan Password",
+              "Masukkan Password",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -46,6 +99,8 @@ class LoginView extends GetView<LoginController> {
             ),
             SizedBox(height: 10),
             TextField(
+              controller: _passwordController,
+              obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Password",
@@ -53,9 +108,9 @@ class LoginView extends GetView<LoginController> {
             ),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => Get.offAllNamed(Routes.HOME),
+              onPressed: loginPressed,
               child: Text(
-                "Sign Up",
+                "Login",
                 style: TextStyle(
                   color: Color(0xFFf0eee4),
                 ),

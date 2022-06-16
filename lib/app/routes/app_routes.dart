@@ -8,6 +8,12 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const PROFILE = _Paths.PROFILE;
   static const PROFIL = _Paths.PROFIL;
+  static const SERVICES = _Paths.SERVICES;
+  static const PANDUAN = _Paths.PANDUAN;
+  static const IBUHAMIL = _Paths.IBUHAMIL;
+  static const BAYIBALITA = _Paths.BAYIBALITA;
+  static const JADWAL = _Paths.JADWAL;
+  static const AGENDA = _Paths.AGENDA;
 }
 
 abstract class _Paths {
@@ -15,4 +21,10 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const PROFILE = '/profile';
   static const PROFIL = '/profil';
+  static const SERVICES = '/services';
+  static const PANDUAN = '/panduan';
+  static const IBUHAMIL = '/ibuhamil';
+  static const BAYIBALITA = '/bayibalita';
+  static const JADWAL = '/jadwal';
+  static const AGENDA = '/agenda';
 }

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-
+import 'package:laravel/app/modules/bayibalita/views/bayibalita_view.dart';
+import 'package:laravel/app/modules/jadwal/views/jadwal_view.dart';
+import 'package:laravel/app/modules/profil/views/profil_view.dart';
 import 'package:get/get.dart';
-
+import 'package:laravel/app/modules/panduan/views/panduan_view.dart';
+import 'package:laravel/app/routes/app_pages.dart';
+import 'package:laravel/app/modules/ibuhamil/views/ibuhamil_view.dart';
 import '../controllers/home_controller.dart';
+import 'navbar.dart';
 
 class HomeView extends GetView<HomeController> {
+  const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: navbar(),
       appBar: AppBar(
         centerTitle: false,
         title: RichText(
@@ -29,14 +36,14 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            width: 30,
-            height: 30,
-            child: Icon(Icons.menu),
-          ),
-        ],
+        // actions: [
+        //   Container(
+        //     margin: EdgeInsets.only(right: 20),
+        //     width: 30,
+        //     height: 30,
+        //     child: Icon(Icons.menu),
+        //   ),
+        // ],
         backgroundColor: Color(0xFF098DB3),
         elevation: 0,
       ),
@@ -105,14 +112,37 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  ItemKategori(
-                                    title: "Ibu Hamil",
-                                    icon: "assets/images/ibu.png",
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                SizedBox(
+                                                    child: const Panduan()),
+                                          ));
+                                    },
+                                    child: ItemKategori(
+                                      title: "Ibu Hamil",
+                                      icon: "assets/images/ibuhamil.png",
+                                    ),
                                   ),
-                                  ItemKategori(
-                                    title: "Bayi & Balita",
-                                    icon: "assets/images/bayi.png",
-                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                SizedBox(
+                                                    child:
+                                                        const BayiBalitaView()),
+                                          ));
+                                    },
+                                    child: ItemKategori(
+                                      title: "Bayi & Balita",
+                                      icon: "assets/images/bayi.png",
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: 45),
@@ -122,11 +152,11 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   ItemKategori(
                                     title: "Jadwal",
-                                    icon: "assets/images/jadwalbaru.png",
+                                    icon: "assets/images/jadwal_baru.png",
                                   ),
                                   ItemKategori(
-                                    title: "Konsultasi",
-                                    icon: "assets/images/konsul.png",
+                                    title: "Imunisasi",
+                                    icon: "assets/images/suntik_baru.png",
                                   ),
                                 ],
                               ),
@@ -136,8 +166,8 @@ class HomeView extends GetView<HomeController> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   ItemKategori(
-                                    title: "Validasi",
-                                    icon: "assets/images/validasi.png",
+                                    title: "Timbangan",
+                                    icon: "assets/images/timbangan.png",
                                   ),
                                   ItemKategori(
                                     title: "Rujukan",

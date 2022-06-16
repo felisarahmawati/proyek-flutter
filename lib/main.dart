@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laravel/app/modules/home/views/home_view.dart';
+import 'package:laravel/app/modules/jadwal/views/jadwal_view.dart';
+import 'package:laravel/app/modules/login/views/login_view.dart';
 import 'app/routes/app_pages.dart';
 import 'app/widgets/splash_screen.dart';
 
@@ -18,8 +21,10 @@ class MyApp extends StatelessWidget {
         } else {
           return GetMaterialApp(
             title: "Application",
-            initialRoute: Routes.LOGIN,
-            getPages: AppPages.routes,
+            // initialRoute: Routes.LOGIN,
+            home: LoginView(),
+            // home: Panduan(),
+            // getPages: AppPages.routes,
             debugShowCheckedModeBanner: false,
           );
         }
